@@ -8,7 +8,7 @@
 <h1>Demo Page</h1>
 <p th:text="${msg}"></p><!-- コントローラでaddAttributeで設定したmsgに対応した値を出力する -->
 
-<form method="post" action="/">
+<form method="post" action="/"><!-- actionの/を後でいじってみる -->
 	<input type="text" name="text1" th:value="${value}">
 	<input type="submit" value="実行" >
 </form>
