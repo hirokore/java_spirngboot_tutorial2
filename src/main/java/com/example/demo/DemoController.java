@@ -4,18 +4,21 @@ import org.springframework.web.bind.annotation.	PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.stereotype.Controller;
 // Modelクラスとは、Webページで使用するデータを管理するクラスです。
-import org.springframework.ui.Model;
+//import org.springframework.ui.Model;
+//Modelは戻り値を持たないため、ビューから値が返ってくる場合には、 ModelAndView
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller //コントローラーとして役割を持たせたクラスファイルという意味を持たせる注釈
 public class DemoController {
 	@RequestMapping("/{num}")//リクエストURLに対して、どのメソッドが処理するかを決める注釈
-	public String index(@PathVariable int num, Model model) {//homeメソッドをString型で定義して、表示したい文字列をreturnする。
+	public ModelAndView index(@PathVariable int num, ModelAndView mav) {//homeメソッドをString型で定義して、表示したい文字列をreturnする。
 		int sum = 0;
 		for (int i = 1; i <= num; i++) {
 			sum += i;
 		}
-		model.addAttribute("msg", "sum=" + sum);
-		return "Index";
+		mav.addObject("msg", "sum=" + sum);
+		mav.setViewName("index");
+		return mav;
 	}
 }
 
