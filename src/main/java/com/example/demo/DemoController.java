@@ -1,12 +1,20 @@
 package com.example.demo;
 
+import org.springframework.web.bind.annotation.	PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.stereotype.Controller;
+// Modelクラスとは、Webページで使用するデータを管理するクラスです。
+import org.springframework.ui.Model;
 
 @Controller //コントローラーとして役割を持たせたクラスファイルという意味を持たせる注釈
 public class DemoController {
-	@RequestMapping("/")//リクエストURLに対して、どのメソッドが処理するかを決める注釈
-	public String index() {//homeメソッドをString型で定義して、表示したい文字列をreturnする。
+	@RequestMapping("/{num}")//リクエストURLに対して、どのメソッドが処理するかを決める注釈
+	public String index(@PathVariable int num, Model model) {//homeメソッドをString型で定義して、表示したい文字列をreturnする。
+		int sum = 0;
+		for (int i = 1; i <= num; i++) {
+			sum += i;
+		}
+		model.addAttribute("msg", "sum=" + sum);
 		return "Index";
 	}
 }
@@ -20,3 +28,6 @@ public class DemoController {
 
 
 //テンプレートエンジンとはデータとテンプレートを合体させ、文字列を作る仕組みのこと
+
+//addAttributeは、第一引数で名前を、第二引数で値を設定します。
+//ビュー側で第一引数で指定した名前でデータを取り出します。
