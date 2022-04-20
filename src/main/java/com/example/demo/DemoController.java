@@ -1,7 +1,9 @@
 package com.example.demo;
 
-import org.springframework.web.bind.annotation.	PathVariable;
+//import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.stereotype.Controller;
 // Modelクラスとは、Webページで使用するデータを管理するクラスです。
 //import org.springframework.ui.Model;
@@ -10,14 +12,17 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller //コントローラーとして役割を持たせたクラスファイルという意味を持たせる注釈
 public class DemoController {
-	@RequestMapping("/{num}")//リクエストURLに対して、どのメソッドが処理するかを決める注釈
-	public ModelAndView index(@PathVariable int num, ModelAndView mav) {//homeメソッドをString型で定義して、表示したい文字列をreturnする。
-		int sum = 0;
-		for (int i = 1; i <= num; i++) {
-			sum += i;
-		}
-		mav.addObject("msg", "sum=" + sum);
+	@RequestMapping(value = "/", method=RequestMethod.GET)//リクエストURLに対して、どのメソッドが処理するかを決める注釈
+	public ModelAndView index(ModelAndView mav) {//homeメソッドをString型で定義して、表示したい文字列をreturnする。
 		mav.setViewName("index");
+		mav.addObject("msg", "お名前を入力してください");
+		return mav;
+	}
+	@RequestMapping(value = "/", method=RequestMethod.POST)
+	public ModelAndView send(@RequestParam("text1")String str, ModelAndView mav) {
+		mav.setViewName("index");
+		mav.addObject("msg","こんにちは" + str + "さん！");
+		mav.addObject("value", str);
 		return mav;
 	}
 }
@@ -34,3 +39,6 @@ public class DemoController {
 
 //addAttributeは、第一引数で名前を、第二引数で値を設定します。
 //ビュー側で第一引数で指定した名前でデータを取り出します。
+
+//ブラウザからURLを指定された場合には、GETで処理されるので、indexメソッドが処理され
+//次にHTMLから送信された場合には、POSTを指定していますので、sendメソッドが処理されます。
